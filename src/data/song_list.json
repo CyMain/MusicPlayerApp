@@ -1,0 +1,14 @@
+[
+    {
+        "id":1,
+        "cover":"../data/covers/bad_apple_cover.png",
+        "song_name":"Bad Apple",
+        "audio":"../data/audios/bad_apple_audio.mp3"
+    },
+    {
+        "id":2,
+        "cover":"../data/covers/medicine_teto_english_cover.png",
+        "song_name":"Medicine Teto English",
+        "audio":"../data/audios/medicine_teto_english_audio.mp3"
+    }
+]

@@ -1,0 +1,8 @@
+[
+    {
+        "id":1,
+        "cover":"../data/covers/bad_apple_cover.png",
+        "song_name":"Bad Apple",
+        "audio":"../data/audios/bad_apple_audio.mp3"
+    }
+]
