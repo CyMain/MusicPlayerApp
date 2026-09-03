@@ -1,13 +1,35 @@
+.queue-view{
+    min-height:100dvh;
+    height:100dvh;
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    color:var(--mainTextColor1);
+    background: var(--subColor1);
+
+    >*{
+        max-width:100%;
+    }
+}
+
+
 .song-controller{
     display: flex;
-    height: 40dvh;
+    padding: 2rem;
+    height: 40%;
+    width: 100%;
+    background: linear-gradient(180deg, var(--mainColor1), var(--subColor1));
+
     .song-cover{
         display: flex;
         align-items: center;
         padding: 2rem;
         background-color: green;
-        width: 32vw;
+        width: 30%;
+        max-width: 32vw;
         max-height: 30dvh;
+        flex-shrink: 0;
         img{
             width: 100%;
         }
@@ -19,15 +41,30 @@
         justify-content: center;
         align-items: center;
         gap: 2rem;
-        width: max-content;
+        flex: 1;
+        min-width: 0;
+        margin:0 auto;
 
         >audio{
             
         }
+
+        .song-name{
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+        }
+
         >.audio-controls{
             display: flex;
             flex-direction: column;
             gap: 1rem;
+
+            svg{
+                color:var(--mainTextColor1);
+            }
         }
 
         button{
@@ -68,22 +105,33 @@
 
 }
 
+.queue-title{
+    font-size: 2rem;
+    margin: 0;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+}
+
 .queue{
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    height: 100%;
+    width: 100%;
+    gap: 0.6em;
     padding: 0;
+    margin: 0;
     list-style: none;
 
+
     .queue-item{
-        width: 100%;
+        max-width: 100%;
         display: flex;
         align-items: center;
         gap: 2rem;
-        min-height: 3rem;
+        min-height: 5rem;
         padding: 1rem;
         overflow: hidden;
-        background-color: #ccc9c9;
+        background-color: transparent;
         cursor: pointer;
         transition: background 0.2s;
 
@@ -95,8 +143,17 @@
             }
         }
 
+        >.song-name-queue{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-size: 1.2rem;
+            width: 30%;
+        }
+
         &:hover{
-            background: #4444446d;
+            background: var(--subColor2);
+            color:var(--mainTextColor2)
         }
     }
 

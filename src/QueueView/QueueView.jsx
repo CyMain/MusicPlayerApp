@@ -183,6 +183,7 @@ const QueueItem = ({item, handleSongChange}) =>{
 const CurrQueue = ({songs_list, handleSongChange})=>{
     return(
         <>
+            <h1 className="queue-title">Your Queue</h1>
             <ul className="queue">
                 {
                     songs_list.map(
@@ -244,9 +245,11 @@ const QueueView = ()=>{
 
     return(
         <>
-            <SongAdder/>
-            <CurrPlayingSong key={currSong.id} song = {currSong} songHandler={songHandler}/>
-            <CurrQueue songs_list = {songs_list} handleSongChange={handleCurrSongChangeByID}/>
+            <div className="queue-view">
+                {/* <SongAdder/> */}
+                <CurrPlayingSong key={currSong.id} song = {currSong} songHandler={songHandler}/>
+                <CurrQueue songs_list = {songs_list} handleSongChange={handleCurrSongChangeByID}/>
+            </div>
         </>
     )
 }
