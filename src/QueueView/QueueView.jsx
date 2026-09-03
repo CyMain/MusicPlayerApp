@@ -14,24 +14,35 @@ const CurrSongCover = ({song_cover})=>{
     )
 }
 
-const SongControls = ({song_data})=>{
+const SongControls = ({song_data, songHandler})=>{
     const audio_tag = useRef(null)
     const progress_ref = useRef(null)
     const fakeFillRef = useRef(null)
     const [is_playing, setIsPlaying] = useState(false)
 
+    function pauseSong(){
+        audio_tag.current.pause()
+        setIsPlaying(false)
+    }
+    function playSong(){
+        audio_tag.current.play()
+        setIsPlaying(true)
+    }
+
     function handleAudio(instruction){
         if(instruction == "play"){
-            if (is_playing == true){
-                audio_tag.current.pause()
+            if (is_playing == false){
+                playSong()
             } else{
-                audio_tag.current.play()
+                pauseSong()
             }
             setIsPlaying(!is_playing)
         }else if(instruction == "previous"){
-
+            pauseSong()
+            songHandler.previousSongFunc()
         }else if(instruction == "next"){
-
+            pauseSong()
+            songHandler.nextSongFunc()
         }
         console.log("song control used.")
     }
@@ -134,7 +145,7 @@ const SongControls = ({song_data})=>{
     )
 }
 
-const CurrPlayingSong = ({song}) =>{
+const CurrPlayingSong = ({song, songHandler}) =>{
     const song_data = {
         cover:song.cover,
         song_name:song.song_name,
@@ -144,7 +155,7 @@ const CurrPlayingSong = ({song}) =>{
         <>
             <div className="song-controller">
                 <CurrSongCover song_cover={song_data.cover}/>
-                <SongControls song_data={song_data}/>
+                <SongControls song_data={song_data} songHandler={songHandler}/>
             </div>
         </>
     )
@@ -195,10 +206,25 @@ const SongAdder = () => {
 
 const QueueView = ()=>{
     const songs_list = song_list 
-    const [currSong, setCurrSong] = useState(songs_list[0])
+    const [song_list_index, set_song_list_index] = useState(0)
+    const [currSong, setCurrSong] = useState(songs_list[song_list_index])
+
+    function nextSong(){
+        handleCurrSongChange(song_list_index + 1)
+    }
+    function previousSong(){
+        handleCurrSongChange(song_list_index - 1)
+    }
+
+    const songHandler = {
+        nextSongFunc:nextSong,
+        previousSongFunc:previousSong
+    }
+
     function handleCurrSongChange(id){
-        if(songs_list[id-1]){
-            setCurrSong(songs_list[id-1])
+        const target_index = id - 1
+        if(songs_list[target_index]){
+            set_song_list_index(target_index)
             console.log("song succesfully changed.")
         }else{
             console.log("Reached the end of queue.")
@@ -208,7 +234,7 @@ const QueueView = ()=>{
     return(
         <>
             <SongAdder/>
-            <CurrPlayingSong song = {currSong}/>
+            <CurrPlayingSong song = {currSong} songHandler={songHandler}/>
             <CurrQueue songs_list = {songs_list} handleSongChange={handleCurrSongChange}/>
         </>
     )
