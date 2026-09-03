@@ -136,7 +136,7 @@
         transition: background 0.2s;
 
         >.song-cover-queue{
-            width: 6rem;
+            width: 9rem;
             img{
                 max-width: 200px;
                 width: 100%;
