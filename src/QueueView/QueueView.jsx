@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import song_list from "../data/song_list.json";
 import bad_ApplE from "/data/audios/bad_apple_audio.mp3";
 import './QueueView.css';
@@ -36,7 +36,6 @@ const SongControls = ({song_data, songHandler})=>{
             } else{
                 pauseSong()
             }
-            setIsPlaying(!is_playing)
         }else if(instruction == "previous"){
             pauseSong()
             songHandler.previousSongFunc()
@@ -151,6 +150,7 @@ const CurrPlayingSong = ({song, songHandler}) =>{
         song_name:song.song_name,
         audio:song.audio
     }
+    
     return(
         <>
             <div className="song-controller">
@@ -225,6 +225,7 @@ const QueueView = ()=>{
         const target_index = id - 1
         if(songs_list[target_index]){
             set_song_list_index(target_index)
+            setCurrSong(songs_list[target_index])
             console.log("song succesfully changed.")
         }else{
             console.log("Reached the end of queue.")
@@ -234,7 +235,7 @@ const QueueView = ()=>{
     return(
         <>
             <SongAdder/>
-            <CurrPlayingSong song = {currSong} songHandler={songHandler}/>
+            <CurrPlayingSong key={currSong.id} song = {currSong} songHandler={songHandler}/>
             <CurrQueue songs_list = {songs_list} handleSongChange={handleCurrSongChange}/>
         </>
     )
