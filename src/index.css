@@ -7,4 +7,6 @@ body, html, *{
 
 button{
     cursor: pointer;
+    border: none;
+    border-radius: 0.3rem;
 }

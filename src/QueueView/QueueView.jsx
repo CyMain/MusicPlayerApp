@@ -196,11 +196,137 @@ const CurrQueue = ({songs_list, handleSongChange})=>{
 }
 
 const SongAdder = () => {
+    const [isDragging, setIsDragging] = useState(false);
+    const [stagedSong, setStagedSong] = useState(null);
+    const [songName, setSongName] = useState("");
+    const songNameRef = useRef(null)
+
+    // Sample Data:
+    // {
+    //     songName:"Sonic Adventure 2 - Live and Learn",
+    //     songCover:"/data/images/sonic_adventure_2_live_and_learn_cover.jpg",
+    //     songAudio:"/data/audios/sonic_adventure_2_live_and_learn_audio.mp3"
+    // }
+
+    // Ref counter prevents false dragleave triggers when dragging over child elements
+    const dragCounter = useRef(0);
+
+    useEffect(() => {
+        // Prevent default browser opening of files anywhere on the page
+        const preventDefaults = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+        };
+
+        const handleDragEnter = (e) => {
+            preventDefaults(e);
+            dragCounter.current += 1;
+            
+            // Only flag dragging if items exist in the drag event
+            if (e.dataTransfer.items && e.dataTransfer.items.length > 0) {
+                setIsDragging(true);
+            }
+        };
+
+        const handleDragOver = (e) => {
+            preventDefaults(e);
+            // Necessary to allow dropping
+            e.dataTransfer.dropEffect = "copy";
+        };
+
+        const handleDragLeave = (e) => {
+            preventDefaults(e);
+            dragCounter.current -= 1;
+            
+            // Only hide when the cursor completely leaves the window viewport
+            if (dragCounter.current === 0) {
+                setIsDragging(false);
+            }
+        };
+
+        const handleDrop = (e) => {
+            preventDefaults(e);
+            setIsDragging(false);
+            dragCounter.current = 0;
+
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                const file = files[0];
+                
+                // Allow audio mime types or file extensions matching audio formats
+                if (file.type.startsWith("audio/") || file.name.match(/\.(mp3|wav|ogg|m4a|flac)$/i)) {
+                    const audioUrl = URL.createObjectURL(file);
+                    const cleanName = file.name.replace(/\.[^/.]+$/, "");
+                    setStagedSong({ file, audioUrl });
+                    setSongName(cleanName);
+                } else {
+                    alert("Please drop a valid audio file (.mp3, .wav, etc.).");
+                }
+            }
+            //FileList {0: File, length: 1}
+            // 0 : File
+            // lastModified : 1787331503120
+            // lastModifiedDate : Fri Aug 21 2026 17:58:23 GMT+0100 (West Africa Time) {}
+            // name : "I don't play 'bout you #JerseyClub.mp3"
+            // size : 2619487
+            // type : "audio/mpeg"
+            // webkitRelativePath : ""
+            console.log(files)
+        };
+
+        // Attach listeners directly to window
+        window.addEventListener("dragenter", handleDragEnter);
+        window.addEventListener("dragover", handleDragOver);
+        window.addEventListener("dragleave", handleDragLeave);
+        window.addEventListener("drop", handleDrop);
+
+        return () => {
+            window.removeEventListener("dragenter", handleDragEnter);
+            window.removeEventListener("dragover", handleDragOver);
+            window.removeEventListener("dragleave", handleDragLeave);
+            window.removeEventListener("drop", handleDrop);
+        };
+    }, []);
+
+    function handleCancel(){
+        setStagedSong(null)
+    }
     return(
         <>
-            <div className="song_adder_container">
-                <input type="file" name="added_song" id="added_song" />
-            </div>
+            {
+                isDragging && (
+                    <>
+                        <div className="song-adder-dragging-overlay">
+                            <p>Drag and drop your song here</p>
+                        </div>
+                    </>
+                )
+            }
+
+            {
+                stagedSong && (
+                    <>
+                        <div className="song-adder-dragging-overlay">
+                            <form action="" className="song-adder-form">
+                                <label htmlFor="song-name">Song Name:</label>
+                                <input type="text" id="song-name" placeholder="Enter song name"
+                                ref={songNameRef} value={songName} onChange={(e)=>setSongName(e.target.value)}
+                                />
+                                <label htmlFor="song-cover">Song Cover:</label>
+                                <input type="file" id="song-cover" accept="image/*" />
+                                <div className="form-buttons">
+                                    <button className="cancel-button" onClick={handleCancel}>
+                                        Cancel
+                                    </button>
+                                    <button type="submit" className="add-song-button">
+                                        Add Song
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </>
+                )
+            }
         </>
     )
 }
@@ -246,7 +372,7 @@ const QueueView = ()=>{
     return(
         <>
             <div className="queue-view">
-                {/* <SongAdder/> */}
+                <SongAdder/>
                 <CurrPlayingSong key={currSong.id} song = {currSong} songHandler={songHandler}/>
                 <CurrQueue songs_list = {songs_list} handleSongChange={handleCurrSongChangeByID}/>
             </div>
