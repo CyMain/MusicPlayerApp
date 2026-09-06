@@ -184,6 +184,16 @@ const CurrQueue = ({songs_list, handleSongChange})=>{
     return(
         <>
             <h1 className="queue-title">Your Queue</h1>
+            <div
+                className="queue-header"
+            >
+                <h4 className="cover-header">
+                    Cover
+                </h4>
+                <h4 className="song-name-queue">
+                    Title
+                </h4>
+            </div>
             <ul className="queue">
                 {
                     songs_list.map(
