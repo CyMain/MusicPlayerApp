@@ -104,14 +104,19 @@ app.post("/api/upload", upload.fields([
         const newSong = new Song({
             song_name:song_name || audioFile.originalname,
             audio_url:audioResult.secure_url,
-            coverUrl:coverUrl,
+            cover_url:coverUrl,
         })
 
         await newSong.save();
         
         res.status(201).json({
-            message:"Upload Successful",
-            song:newSong,
+            message: "Upload Successful",
+            song: {
+                id: newSong._id,
+                song_name: newSong.song_name,
+                audio: newSong.audio_url,
+                cover: newSong.cover_url || "data/images/default_cover.jpg"
+            }
         });
     } catch (error){
         console.error("Upload Error: ", error)

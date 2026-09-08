@@ -1,31 +1,36 @@
 import { useRef, useState, useEffect } from "react";
 import song_list from "../data/song_list.json";
-import bad_ApplE from "/data/audios/bad_apple_audio.mp3";
+import { SongsProvider, useSongs, useSongsDispatch } from "./SongsContextFile";
 import './QueueView.css';
 
 
-const CurrSongCover = ({song_cover})=>{
+const CurrSongCover = ()=>{
+    const { currSong } = useSongs();
+
     return(
         <>
             <figure className="song-cover">
-                <img src={song_cover} alt="" />
+                <img src={currSong.cover} alt={currSong.song_name} />
             </figure>
         </>
     )
 }
 
-const SongControls = ({song_data, songHandler})=>{
+const SongControls = ()=>{
+    const { currSong } = useSongs();
+    const dispatch = useSongsDispatch();
+
     const audio_tag = useRef(null)
     const progress_ref = useRef(null)
     const fakeFillRef = useRef(null)
     const [is_playing, setIsPlaying] = useState(false)
 
     function pauseSong(){
-        audio_tag.current.pause()
+        audio_tag.current?.pause()
         setIsPlaying(false)
     }
     function playSong(){
-        audio_tag.current.play()
+        audio_tag.current?.play()
         setIsPlaying(true)
     }
 
@@ -38,10 +43,10 @@ const SongControls = ({song_data, songHandler})=>{
             }
         }else if(instruction == "previous"){
             pauseSong()
-            songHandler.previousSongFunc()
+            dispatch({ type:"previous" })
         }else if(instruction == "next"){
             pauseSong()
-            songHandler.nextSongFunc()
+            dispatch({ type:"next" })
         }
         console.log("song control used.")
     }
@@ -84,7 +89,7 @@ const SongControls = ({song_data, songHandler})=>{
         <>
             <div className="song-controls">
                 <h2 className="song-name">
-                    {song_data.song_name}
+                    {currSong?.song_name}
                 </h2>
                 <div className="audio-controls">
                     <div className="audio-control-buttons">
@@ -134,7 +139,7 @@ const SongControls = ({song_data, songHandler})=>{
                     </div>
                 </div>
                 <audio
-                    src={song_data.audio}
+                    src={currSong?.audio}
                     ref={audio_tag}
                     onTimeUpdate={handleTimeUpdate}
                     onEnded={()=>setIsPlaying(false)}
@@ -144,30 +149,30 @@ const SongControls = ({song_data, songHandler})=>{
     )
 }
 
-const CurrPlayingSong = ({song, songHandler}) =>{
-    const song_data = {
-        cover:song.cover,
-        song_name:song.song_name,
-        audio:song.audio
-    }
+const CurrPlayingSong = () =>{
+    const { currSong } = useSongs();
+
+    console.log(`At CurrPlayingSong songs_utils is: ${currSong}`)
 
     return(
         <>
             <div className="song-controller">
-                <CurrSongCover song_cover={song_data.cover}/>
-                <SongControls song_data={song_data} songHandler={songHandler}/>
+                <CurrSongCover key={currSong.id}/>
+                <SongControls key={`ctrl-${currSong.id}`}/>
             </div>
         </>
     )
 }
 
 // Queue Components
-const QueueItem = ({item, handleSongChange}) =>{
+const QueueItem = ({ item }) =>{
+    const dispatch = useSongsDispatch();
+
     return(
         <>
             <li 
                 className="queue-item"
-                onClick={()=>handleSongChange(item.id)}
+                onClick={()=>dispatch({ type:'change_to_song', target_id:item.id })}
             >
                 <figure className="song-cover-queue">
                     <img src={item.cover} alt="" />
@@ -180,7 +185,9 @@ const QueueItem = ({item, handleSongChange}) =>{
     )
 }
 
-const CurrQueue = ({songs_list, handleSongChange})=>{
+const CurrQueue = ()=>{
+    const { songs_list } = useSongs();
+
     return(
         <>
             <h1 className="queue-title">Your Queue</h1>
@@ -197,7 +204,7 @@ const CurrQueue = ({songs_list, handleSongChange})=>{
             <ul className="queue">
                 {
                     songs_list.map(
-                        item => <QueueItem item={item} key={item.id} handleSongChange={handleSongChange}/>
+                        (item) => <QueueItem item={item} key={item.id}/>
                     )
                 }
             </ul>
@@ -209,7 +216,11 @@ const SongAdder = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [stagedSong, setStagedSong] = useState(null);
     const [songName, setSongName] = useState("");
-    const songNameRef = useRef(null)
+    const songNameRef = useRef(null);
+
+    // Ref counter prevents false dragleave triggers when dragging over child elements
+    const dragCounter = useRef(0);
+    const dispatch = useSongsDispatch();
 
     // Sample Data:
     // {
@@ -218,8 +229,6 @@ const SongAdder = () => {
     //     songAudio:"/data/audios/sonic_adventure_2_live_and_learn_audio.mp3"
     // }
 
-    // Ref counter prevents false dragleave triggers when dragging over child elements
-    const dragCounter = useRef(0);
 
     useEffect(() => {
         // Prevent default browser opening of files anywhere on the page
@@ -301,6 +310,52 @@ const SongAdder = () => {
     function handleCancel(){
         setStagedSong(null)
     }
+
+    async function handleAddSong(e){
+        e.preventDefault();
+        if (!stagedSong){
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("song_name", songName);
+        formData.append("audio", stagedSong.file);
+
+        // Check if cover file input exists
+        const coverFileInput = document.getElementById("song-cover");
+        if (coverFileInput?.files[0]) {
+            formData.append("cover", coverFileInput.files[0]);
+        }
+
+        try{
+            const response = await fetch("http:localhost:5000/api/upload", {
+                method:"POST",
+                body:formData,
+            });
+            const data = await response.json();
+
+            if (response.ok){
+                dispatch({ type:"add_song", newSong:data.song });
+                setStagedSong(null);
+                setSongName("");
+            }
+            
+
+        } catch (error) {
+            console.error(`Failed to upload song: ${error}`)
+        }
+
+        // const newSong = {
+        //     id:Date.now(),
+        //     song_name: songName,
+        //     cover: "data/images/default_cover.jpg",
+        //     audio: stagedSong.audioUrl
+        // }
+
+        // dispatch({type: "add_song", newSong});
+        // setStagedSong(null);
+        // setSongName("");
+    }
     return(
         <>
             {
@@ -317,15 +372,22 @@ const SongAdder = () => {
                 stagedSong && (
                     <>
                         <div className="song-adder-dragging-overlay">
-                            <form action="" className="song-adder-form">
+                            <form action="" className="song-adder-form"
+                                onSubmit={handleAddSong}
+                            >
                                 <label htmlFor="song-name">Song Name:</label>
-                                <input type="text" id="song-name" placeholder="Enter song name"
-                                ref={songNameRef} value={songName} onChange={(e)=>setSongName(e.target.value)}
+                                <input
+                                    type="text"
+                                    id="song-name"
+                                    placeholder="Enter song name"
+                                    ref={songNameRef}
+                                    value={songName}
+                                    onChange={(e)=>setSongName(e.target.value)}
                                 />
                                 <label htmlFor="song-cover">Song Cover:</label>
                                 <input type="file" id="song-cover" accept="image/*" />
                                 <div className="form-buttons">
-                                    <button className="cancel-button" onClick={handleCancel}>
+                                    <button type="button" className="cancel-button" onClick={handleCancel}>
                                         Cancel
                                     </button>
                                     <button type="submit" className="add-song-button">
@@ -342,50 +404,52 @@ const SongAdder = () => {
 }
 
 const QueueView = ()=>{
-    const songs_list = song_list 
-    const [song_list_index, set_song_list_index] = useState(0)
-    const [currSong, setCurrSong] = useState(songs_list[song_list_index])
+    // const songs_list = song_list 
+    // const [song_list_index, set_song_list_index] = useState(0)
+    // const [currSong, setCurrSong] = useState(songs_list[song_list_index])
 
-    function nextSong(){
-        handleCurrSongChangeByIndex(song_list_index + 1)
-    }
-    function previousSong(){
-        handleCurrSongChangeByIndex(song_list_index - 1)
-    }
+    // function nextSong(){
+    //     handleCurrSongChangeByIndex(song_list_index + 1)
+    // }
+    // function previousSong(){
+    //     handleCurrSongChangeByIndex(song_list_index - 1)
+    // }
 
-    const songHandler = {
-        nextSongFunc:nextSong,
-        previousSongFunc:previousSong
-    }
+    // const songHandler = {
+    //     nextSongFunc:nextSong,
+    //     previousSongFunc:previousSong
+    // }
 
-    function handleCurrSongChangeByIndex(index){
-        if(songs_list[index]){
-            set_song_list_index(index)
-            setCurrSong(songs_list[index])
-            console.log(`song succesfully changed to ${songs_list[index].song_name}.`)
-        }else{
-            console.log("Reached the end of queue.")
-        }
-    }
+    // function handleCurrSongChangeByIndex(index){
+    //     if(songs_list[index]){
+    //         set_song_list_index(index)
+    //         setCurrSong(songs_list[index])
+    //         console.log(`song succesfully changed to ${songs_list[index].song_name}.`)
+    //     }else{
+    //         console.log("Reached the end of queue.")
+    //     }
+    // }
 
-    function handleCurrSongChangeByID(id){
-        const target_index = id - 1
-        if(songs_list[target_index]){
-            set_song_list_index(target_index)
-            setCurrSong(songs_list[target_index])
-            console.log(`song succesfully changed to ${songs_list[target_index].song_name}.`)
-        }else{
-            console.log("Reached the end of queue.")
-        }
-    }
+    // function handleCurrSongChangeByID(id){
+    //     const target_index = id - 1
+    //     if(songs_list[target_index]){
+    //         set_song_list_index(target_index)
+    //         setCurrSong(songs_list[target_index])
+    //         console.log(`song succesfully changed to ${songs_list[target_index].song_name}.`)
+    //     }else{
+    //         console.log("Reached the end of queue.")
+    //     }
+    // }
 
     return(
         <>
-            <div className="queue-view">
-                <SongAdder/>
-                <CurrPlayingSong key={currSong.id} song = {currSong} songHandler={songHandler}/>
-                <CurrQueue songs_list = {songs_list} handleSongChange={handleCurrSongChangeByID}/>
-            </div>
+            <SongsProvider>    
+                <div className="queue-view">
+                    <SongAdder/>
+                    <CurrPlayingSong/>
+                    <CurrQueue/>
+                </div>
+            </SongsProvider>
         </>
     )
 }
