@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import multer from "multer";
 import {v2 as cloudinary} from "cloudinary";
 import cors from "cors";
-import path from "path";
+import path, { format } from "path";
 import { fileURLToPath } from "url";
 import mongoose, { mongo } from "mongoose";
 import { error } from "console";
@@ -47,7 +47,11 @@ const upload = multer({ storage });
 const uploadToCloudinary = (fileBuffer, folder, resourceType="auto")=>{
     return new Promise((resolve, reject)=>{
         const uploadStream = cloudinary.uploader.upload_stream(
-            {folder:folder, resource_type:resourceType},
+            {
+                folder:folder,
+                resource_type:resourceType,
+                format: resourceType === "video" ? "mp3" : undefined
+            },
             (error, result)=>{
                 if (error){
                     return reject(error);
@@ -58,17 +62,6 @@ const uploadToCloudinary = (fileBuffer, folder, resourceType="auto")=>{
         uploadStream.end(fileBuffer);
     });
 };
-
-
-app.get("/api/songs", async(req, res)=>{
-    try{
-        const songs = await Song.find().sort({ createdAt: -1});
-        res.json(songs);
-    }catch(error){
-        res.status(500).json({ error: 'Failed to fetch songs.'})
-    }
-})
-
 
 app.post("/api/upload", upload.fields([
     {name:"audio", maxCount:1},
@@ -123,6 +116,35 @@ app.post("/api/upload", upload.fields([
         res.status(500).json({error:'Failed to upload files'});
     }
 });
+
+app.get("/api/songs", async(req, res)=>{
+    try{
+        const songs = await Song.find().sort({createdAt: -1});
+        
+        const formattedSongs = songs.map(song=>({
+            id:song._id,
+            song_name:song.song_name,
+            audio:song.audio_url,
+            cover:song.cover_url || "data/images/default_cover.jpg"
+        }))
+
+        res.status(200).json(formattedSongs)
+    } catch(error){
+        console.error("Fetch songs error:", error);
+        res.status(500).json({ error: "Failed to fetch songs." });
+    }
+})
+
+app.delete("/api/delete", async(req, res)=>{
+    try{
+        res.status(201).json({
+            message:"Delete Successful"
+        })
+    } catch (err){
+        console.error("Failed to delete song.")
+        throw new Error("Failed to delete song:", err)
+    }
+})
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, ()=>console.log(`Server running on port ${PORT}`));

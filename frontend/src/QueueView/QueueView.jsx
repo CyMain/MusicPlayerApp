@@ -4,17 +4,17 @@ import { SongsProvider, useSongs, useSongsDispatch } from "./SongsContextFile";
 import './QueueView.css';
 
 
-const CurrSongCover = ()=>{
+const CurrSongCover = () => {
     const { currSong } = useSongs();
 
-    return(
-        <>
-            <figure className="song-cover">
-                <img src={currSong.cover} alt={currSong.song_name} />
-            </figure>
-        </>
-    )
-}
+    if (!currSong) return null;
+
+    return (
+        <figure className="song-cover">
+            <img src={currSong.cover} alt={currSong.song_name} />
+        </figure>
+    );
+};
 
 const SongControls = ()=>{
     const { currSong } = useSongs();
@@ -149,20 +149,28 @@ const SongControls = ()=>{
     )
 }
 
-const CurrPlayingSong = () =>{
-    const { currSong } = useSongs();
+const CurrPlayingSong = () => {
+    const { songs_utils, currSong } = useSongs();
 
-    console.log(`At CurrPlayingSong songs_utils is: ${currSong}`)
-
-    return(
-        <>
-            <div className="song-controller">
-                <CurrSongCover key={currSong.id}/>
-                <SongControls key={`ctrl-${currSong.id}`}/>
+    if (!songs_utils || !songs_utils.songs_list || songs_utils.songs_list.length === 0) {
+        return (
+            <div className="curr-playing-song-empty">
+                <p>No track selected</p>
             </div>
-        </>
-    )
-}
+        );
+    }
+
+    const activeSong = currSong || songs_utils.songs_list[0];
+
+    if (!activeSong) return null;
+
+    return (
+        <div className="song-controller">
+            <CurrSongCover key={activeSong.id} />
+            <SongControls key={`ctrl-${activeSong.id}`} />
+        </div>
+    );
+};
 
 // Queue Components
 const QueueItem = ({ item }) =>{
@@ -173,6 +181,7 @@ const QueueItem = ({ item }) =>{
             <li 
                 className="queue-item"
                 onClick={()=>dispatch({ type:'change_to_song', target_id:item.id })}
+                key={item.id}
             >
                 <figure className="song-cover-queue">
                     <img src={item.cover} alt="" />
@@ -185,32 +194,24 @@ const QueueItem = ({ item }) =>{
     )
 }
 
-const CurrQueue = ()=>{
-    const { songs_list } = useSongs();
+const CurrQueue = () => {
+    const { songs_utils } = useSongs();
 
-    return(
+    return (
         <>
             <h1 className="queue-title">Your Queue</h1>
-            <div
-                className="queue-header"
-            >
-                <h4 className="cover-header">
-                    Cover
-                </h4>
-                <h4 className="song-name-queue">
-                    Title
-                </h4>
+            <div className="queue-header">
+                <h4 className="cover-header">Cover</h4>
+                <h4 className="song-name-queue">Title</h4>
             </div>
             <ul className="queue">
-                {
-                    songs_list.map(
-                        (item) => <QueueItem item={item} key={item.id}/>
-                    )
-                }
+                {songs_utils.songs_list.map((item) => (
+                    <QueueItem item={item} key={item.id} />
+                ))}
             </ul>
         </>
-    )
-}
+    );
+};
 
 const SongAdder = () => {
     const [isDragging, setIsDragging] = useState(false);
