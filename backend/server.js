@@ -90,8 +90,8 @@ app.post("/api/upload", upload.fields([
             'video'
         );
 
-        let coverUrl = ''
-        if (coverFile){
+        let coverUrl = "data/images/default_cover.jpg"; // Default fallback path
+        if (coverFile && coverFile.buffer) {
             const coverResult = await uploadToCloudinary(
                 coverFile.buffer,
                 'music_player/covers',
