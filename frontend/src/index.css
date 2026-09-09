@@ -5,6 +5,18 @@ body, html, *{
     font-family: monospace;
 }
 
+/* Change .your-container to body, html, or a specific div class */
+body, html {
+  overflow-y: auto;          /* Gives you a vertical scrollbar only when needed */
+  scrollbar-width: none;     /* Hides the scrollbar for Firefox */
+  -ms-overflow-style: none;  /* Hides the scrollbar for old Internet Explorer and Edge */
+}
+
+/* Hides the scrollbar for Chrome, Safari, and newer Opera/Edge browsers */
+.body::-webkit-scrollbar, html::-webkit-scrollbar {
+  display: none;
+}
+
 button{
     cursor: pointer;
     border: none;
