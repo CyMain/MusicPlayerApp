@@ -1,6 +1,7 @@
 import { useRef, useState, useEffect } from "react";
 import song_list from "../data/song_list.json";
 import { SongsProvider, useSongs, useSongsDispatch } from "./SongsContextFile";
+import { EllipsisVertical } from "lucide-react"
 import './QueueView.css';
 
 
@@ -192,6 +193,25 @@ const CurrPlayingSong = () => {
 const QueueItem = ({ item }) =>{
     const dispatch = useSongsDispatch();
 
+    const [poppedUp, setPoppedUp] = useState(false)
+
+    function handlePopUp(e){
+        e.stopPropagation()
+        if (poppedUp){
+            setPoppedUp(false)
+            console.log("Popup is now false")
+        }else{
+            setPoppedUp(true)
+            console.log("Popup is now true")
+        }
+    }
+
+    const handleDelete = (e) => {
+        e.stopPropagation();
+        setPoppedUp(false);
+        // Add your delete dispatch or API call here
+    };
+
     return(
         <>
             <li 
@@ -205,6 +225,33 @@ const QueueItem = ({ item }) =>{
                 <h4 className="song-name-queue">
                     {item.song_name}
                 </h4>
+                <div className="options-feature-container">
+                    <button
+                        className="options_feature_button"
+                        onClick={handlePopUp}
+                    >
+                        <EllipsisVertical />
+                    </button>
+                    {
+                        poppedUp && (
+                            <ul 
+                                className="options-feature-pop-up"
+                                onMouseLeave={handlePopUp}
+                            >
+                                <li className="song-option"
+                                    onClick={(e)=>e.stopPropagation()}
+                                >
+                                    Edit
+                                </li>
+                                <li className="song-option"
+                                    onClick={handleDelete}
+                                >
+                                    Delete
+                                </li>
+                            </ul>
+                        )
+                    }
+                </div>
             </li>
         </>
     )

@@ -3,6 +3,7 @@ body, html, *{
     padding: 0;
     box-sizing: border-box;
     font-family: monospace;
+    list-style: none;
 }
 
 /* Change .your-container to body, html, or a specific div class */

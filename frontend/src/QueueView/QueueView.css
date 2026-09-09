@@ -141,7 +141,6 @@
         gap: 2rem;
         min-height: 5rem;
         padding: 1rem;
-        overflow: hidden;
         background-color: transparent;
         cursor: pointer;
         transition: background 0.2s;
@@ -160,6 +159,40 @@
             text-overflow: ellipsis;
             font-size: 1.2rem;
             width: 30%;
+        }
+        >.options-feature-container{
+            margin-left: auto;
+            position: relative;
+            >button{
+                padding:1rem;
+                background:transparent;
+                &:hover{
+                    background:var(--subColor1);
+                    color:var(--mainTextColor1)
+                }
+            }
+            >.options-feature-pop-up{
+                position: absolute;
+                left: -8rem;
+                top: 0;
+                display: flex;
+                flex-direction: column;
+                overflow:hidden;
+                border-radius: 1rem;
+                min-width:150px;
+                width:10dvw;
+                >.song-option{
+                    color:var(--mainTextColor2);
+                    height: 4rem;
+                    background: red;
+                    padding-left: 1rem;
+                    display:flex;
+                    align-items: center;
+                    &:hover{
+                        background:green;
+                    }
+                }
+            }
         }
 
         &:hover{
