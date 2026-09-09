@@ -76,7 +76,7 @@ function SongsProvider({ children }) {
     useEffect(() => {
         const fetchSongs = async () => {
             try {
-                const response = await fetch("http://localhost:5000/api/songs");
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/songs`);
 
                 if (!response.ok) {
                     throw new Error(`Failed to fetch songs. Server status: ${response.status}`);
