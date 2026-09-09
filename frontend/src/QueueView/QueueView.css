@@ -37,15 +37,13 @@
     .song-cover{
         display: flex;
         align-items: center;
-        padding: 2rem;
+        justify-content: center;
+        padding: 0.2rem;
         background-color: green;
         width: 30%;
         max-width: 32vw;
         max-height: 30dvh;
         flex-shrink: 0;
-        img{
-            width: 100%;
-        }
     }
 
     .song-controls{

@@ -6,12 +6,28 @@ import './QueueView.css';
 
 const CurrSongCover = () => {
     const { currSong } = useSongs();
+    const coverRef = useRef(null)
+
+
 
     if (!currSong) return null;
 
+
+    useEffect(()=>{
+        if (coverRef.current.style.width > coverRef.current.style.height){
+            coverRef.current.style.width = "100%";
+        } else{
+            coverRef.current.style.height = "100%";
+        }
+    }, [currSong.cover])
+
     return (
         <figure className="song-cover">
-            <img src={currSong.cover} alt={currSong.song_name} />
+            <img
+                src={currSong.cover}
+                alt={currSong.song_name}
+                ref={coverRef}
+            />
         </figure>
     );
 };
