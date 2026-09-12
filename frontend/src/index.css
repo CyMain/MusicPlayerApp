@@ -4,10 +4,11 @@ body, html, *{
     box-sizing: border-box;
     font-family: monospace;
     list-style: none;
-}
-
-/* Change .your-container to body, html, or a specific div class */
-body, html {
+  }
+  
+  /* Change .your-container to body, html, or a specific div class */
+  body, html {
+  background: var(--mainColor1);
   overflow-y: auto;          /* Gives you a vertical scrollbar only when needed */
   scrollbar-width: none;     /* Hides the scrollbar for Firefox */
   -ms-overflow-style: none;  /* Hides the scrollbar for old Internet Explorer and Edge */
@@ -16,6 +17,11 @@ body, html {
 /* Hides the scrollbar for Chrome, Safari, and newer Opera/Edge browsers */
 .body::-webkit-scrollbar, html::-webkit-scrollbar {
   display: none;
+}
+
+main{
+  position: relative;
+  padding-top: 3rem;
 }
 
 button{

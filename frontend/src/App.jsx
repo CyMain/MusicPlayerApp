@@ -28,8 +28,10 @@ const App = ()=>{
   
   return (
     <>
-      <Navbar/>
-      {content}
+      <main>
+        <Navbar/>
+        {content}
+      </main>
     </>
   )
 }

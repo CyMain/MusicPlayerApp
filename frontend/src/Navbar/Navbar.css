@@ -1,0 +1,65 @@
+.nav-bar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3rem;
+    z-index: 9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    transition: transform 0.3s ease-in-out, background-color 0.3s ease, box-shadow 0.3s ease;
+    transform: translateY(0);
+    
+
+    /* Floating overlay state (when user scrolls down into content) */
+    &.floating {
+    background-color: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Hidden state (sliding up out of screen view on scroll down) */
+    &.hidden {
+    transform: translateY(-100%);
+    }
+
+
+    >.nav-list{
+        margin-left: 4%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14%;
+        height: 100%;
+        width: 100%;
+        >.nav-item{
+            border-radius: 4rem;
+            cursor: pointer;
+            background-color: orange;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding: 0.8rem;
+        }
+    }
+    >.account-block-nav{
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        font-weight: bold;
+        background-color: red;
+        min-height: 2rem;
+        padding: 0.6rem;
+        border-radius: 4rem;
+        >.pfp-nav-container{
+            >img{
+
+            }
+        }
+        >.account-name-nav{
+
+        }
+    }
+}
