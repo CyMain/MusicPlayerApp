@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './App.css'
 import QueueView from './QueueView/QueueView';
-import Navbar from './Navbar';
+import Navbar from './Navbar/Navbar';
 
 
 const App = ()=>{
