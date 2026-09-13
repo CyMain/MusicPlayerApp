@@ -16,14 +16,14 @@
 
     /* Floating overlay state (when user scrolls down into content) */
     &.floating {
-    background-color: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        background-color: rgba(0, 0, 0, 0.85);
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     /* Hidden state (sliding up out of screen view on scroll down) */
     &.hidden {
-    transform: translateY(-100%);
+        transform: translateY(-100%);
     }
 
 
