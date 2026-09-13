@@ -3,7 +3,7 @@ import "./Navbar.css";
 import {User} from "lucide-react";
 
 
-export default function Navbar(){
+export default function Navbar({ pageController }){
     const [isVisible, setIsVisible] = useState(true)
     const [isScrolled, setIsScrolled] = useState(false)
     const navbar_ref = useRef(null)
@@ -21,7 +21,7 @@ export default function Navbar(){
                 lastScrollY = 0
                 return;
             }
-            
+
             // Mark floating once scrolled past 50px
             setIsScrolled(currentScrollY > 50);
     
@@ -39,6 +39,15 @@ export default function Navbar(){
         window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, [])
+
+
+    function changePage(targetPage){
+        if (pageController.currPage == targetPage){
+            console.log(`Already at ${targetPage}`)
+            return;
+        }
+        pageController.setCurrPage(targetPage)
+    }
 
 
     // function handleNavBar(){
@@ -106,17 +115,25 @@ export default function Navbar(){
                 }`}
             >
                 <ul className="nav-list">
-                    <li className="nav-item">
+                    <li className="nav-item"
+                        onClick={()=>changePage("home")}
+                    >
                         To Home
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item"
+                        onClick={()=>changePage("playlist")}
+                    >
                         To Playlist
                     </li>
-                    <li className="nav-item">
+                    <li className="nav-item"
+                        onClick={()=>changePage("profile")}
+                    >
                         To Profile
                     </li>
                 </ul>
-                <div className="account-block-nav">
+                <div className="account-block-nav"
+                    onClick={()=>changePage("profile")}
+                >
                     <figure className="pfp-nav-container">
                         <User/>
                     </figure>

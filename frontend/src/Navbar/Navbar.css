@@ -5,6 +5,7 @@
     right: 0;
     height: 3rem;
     z-index: 9;
+    padding: 2rem;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -45,6 +46,7 @@
         }
     }
     >.account-block-nav{
+        cursor: pointer;
         display: flex;
         align-items: center;
         gap: 1rem;

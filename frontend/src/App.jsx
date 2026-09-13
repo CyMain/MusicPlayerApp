@@ -15,6 +15,13 @@ const App = ()=>{
 
   const [currPage, setCurrPage] = useState("playlist")
 
+
+  const pageController = {
+    currPage:currPage,
+    setCurrPage:setCurrPage
+  }
+
+
   let content = <></>
   if (currPage == "home"){
     content = <HomePage/>
@@ -29,7 +36,7 @@ const App = ()=>{
   return (
     <>
       <main>
-        <Navbar/>
+        <Navbar pageController={pageController}/>
         {content}
       </main>
     </>
