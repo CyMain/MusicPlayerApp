@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import song_list from "../data/song_list.json";
+import song_list from "../../data/song_list.json";
 
 const SongsContext = createContext(null);
 const SongsDispatchContext = createContext(null);
