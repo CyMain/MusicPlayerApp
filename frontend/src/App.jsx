@@ -29,7 +29,7 @@ const App = ()=>{
   } else if (currPage == "playlist"){
     content = <QueueView/>
   }
-  else if(currPage == " profile"){
+  else if(currPage == "profile"){
     content = <ProfilePage/>
   }
 

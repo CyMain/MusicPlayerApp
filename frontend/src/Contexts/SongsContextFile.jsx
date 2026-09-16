@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
-import song_list from "../../data/song_list.json";
+import song_list from "../song_list.json";
 
 const SongsContext = createContext(null);
 const SongsDispatchContext = createContext(null);
@@ -93,11 +93,11 @@ function SongsProvider({ children }) {
     }, []);
 
     return (
-        <SongsContext.Provider value={{ songs_utils, currSong: songs_utils.currSong, dispatch }}>
-            <SongsDispatchContext.Provider value={dispatch}>
+        <SongsContext value={{ songs_utils, currSong: songs_utils.currSong, dispatch }}>
+            <SongsDispatchContext value={dispatch}>
                 {children}
-            </SongsDispatchContext.Provider>
-        </SongsContext.Provider>
+            </SongsDispatchContext>
+        </SongsContext>
     );
 }
 
