@@ -1,0 +1,31 @@
+.user-profile-hero{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    color: var(--mainTextColor1);
+    margin-left: 4rem;
+
+    >.user-details{
+        display: flex;
+        flex-direction: column;
+        gap: 0.4rem;
+
+        >.user-name{
+            font-size: 2rem;
+        }
+        >.edit-profile-button{
+            font-size: 1.4rem;
+            color: var(--mainTextColor1);
+            background: rgba(var(--mainColor1RGB), 0.4);
+        }
+    }
+}
+
+
+.profile-pfp{
+    width: clamp(10rem, 15dvw, 30rem);
+    >img{
+        width: 100%;
+        border-radius: 50%;
+    }
+}
