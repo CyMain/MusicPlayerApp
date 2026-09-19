@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import song_list from "../../data/song_list.json";
 import { SongsProvider, useSongs, useSongsDispatch } from "../../Contexts/SongsContextFile";
 import { EllipsisVertical } from "lucide-react"
+import SongOptions from "../../components/SongOptions/SongOptions"
 import './QueueView.css';
 
 
@@ -192,8 +193,8 @@ const CurrPlayingSong = () => {
 // Queue Components
 const QueueItem = ({ item }) =>{
     const dispatch = useSongsDispatch();
-
     const [poppedUp, setPoppedUp] = useState(false)
+
 
     function handlePopUp(e){
         e.stopPropagation()
@@ -206,12 +207,7 @@ const QueueItem = ({ item }) =>{
         }
     }
 
-    const handleDelete = (e) => {
-        e.stopPropagation();
-        setPoppedUp(false);
-        // Add your delete dispatch or API call here
-    };
-
+    
     return(
         <>
             <li 
@@ -232,25 +228,7 @@ const QueueItem = ({ item }) =>{
                     >
                         <EllipsisVertical />
                     </button>
-                    {
-                        poppedUp && (
-                            <ul 
-                                className="options-feature-pop-up"
-                                onMouseLeave={handlePopUp}
-                            >
-                                <li className="song-option"
-                                    onClick={(e)=>e.stopPropagation()}
-                                >
-                                    Edit
-                                </li>
-                                <li className="song-option"
-                                    onClick={handleDelete}
-                                >
-                                    Delete
-                                </li>
-                            </ul>
-                        )
-                    }
+                    <SongOptions poppedUp={poppedUp} setPoppedUp={setPoppedUp}/>
                 </div>
             </li>
         </>
