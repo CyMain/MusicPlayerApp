@@ -38,6 +38,7 @@
     align-items: center;
     gap: 2rem;
     padding: 0.4rem;
+    cursor: pointer;
     >.song-cover{
         width: 10rem;
         >img{
@@ -49,6 +50,38 @@
     }
 }
 
+.profile-page-bottom{
+    display: flex;
+}
+
+.month-details{
+    width: 100%;
+    >ul{
+        display: flex;
+        justify-content: left;
+        gap: 3.6rem;
+        width: 100%;
+        >.month-detail{
+            background: rgba(var(--mainColor1RGB), 0.4);
+            padding: 1rem;
+            width: 12rem;
+            height: 8rem;
+            border-radius: 4%;
+        }
+    }
+}
+
+
 .right{
+    padding: 0.4rem;
+    width: 100%;
+}
+
+
+
+.left{
+    width: 100%;
+    height: auto;
+    background: red;
     padding: 0.4rem;
 }

@@ -80,7 +80,7 @@ function RecentSongsList(){
 
     return(
         <>
-            <h3>Recents Played</h3>
+            <h2>Recents Played</h2>
             <ul>
                 {recentSongs.map(
                     (song)=> <RecentSong key={song.id} song={song} />
@@ -97,10 +97,30 @@ export default function ProfilePage(){
             <div className="profile-page-bottom">
                 <div className="left">
                     <div className="month-details">
-
+                        <h2>This Month</h2>
+                        <ul>
+                            <li className="month-detail">
+                                <h2>182</h2>
+                                <span>songs Played</span>
+                            </li>
+                            <li className="month-detail">
+                                <h2>182</h2>
+                                <span>songs Played</span>
+                            </li>
+                            <li className="month-detail">
+                                <h2>182</h2>
+                                <span>songs Played</span>
+                            </li>
+                        </ul>
                     </div>
                     <div className="preferences">
-
+                        <h3>Preferences</h3>
+                        <div className="autoplay-preference">
+                            <span>Autoplay</span>
+                        </div>
+                        <button className="logout">
+                            Logout
+                        </button>
                     </div>
                 </div>
                 <div className="right">
