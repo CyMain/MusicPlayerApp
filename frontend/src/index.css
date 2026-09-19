@@ -16,7 +16,7 @@ body, html, *{
 @property --y1 {
   syntax: '<percentage>';
   inherits: false;
-  initial-value: -50%;
+  initial-value: 0%;
 }
 @property --x2 {
   syntax: '<percentage>';
@@ -31,17 +31,18 @@ body, html, *{
 
 /* Change .your-container to body, html, or a specific div class */
 body, html {
-background:
-radial-gradient( circle at var(--x1) var(--y1), rgba(var(--mainColor1RGB), 0.4) 0% 40px, transparent) 10% 41px,
-radial-gradient( circle at var(--x2) var(--y2), rgba(var(--mainColor1RGB), 0.4) 0% 0px, transparent 50% 70px)
-;
-background-color: black;
-overflow-y: auto;          /* Gives you a vertical scrollbar only when needed */
-scrollbar-width: none;     /* Hides the scrollbar for Firefox */
--ms-overflow-style: none;  /* Hides the scrollbar for old Internet Explorer and Edge */
-transition: background 1s ease-in-out;
-animation: moving-background 8s infinite ease-in-out alternate;
-/* animation: name duration timing-function delay iteration-count direction fill-mode; */
+  background:
+    radial-gradient( circle at var(--x1) var(--y1), rgba(var(--mainColor1RGB), 0.4) 0% 40px, transparent ),
+    radial-gradient( circle at var(--x2) var(--y2), rgba(var(--mainColor1RGB), 0.4) 0% 0px, transparent 50% 70px)
+  ;
+  background-color: black;
+  background-attachment: fixed;
+  overflow-y: auto;          /* Gives you a vertical scrollbar only when needed */
+  scrollbar-width: none;     /* Hides the scrollbar for Firefox */
+  -ms-overflow-style: none;  /* Hides the scrollbar for old Internet Explorer and Edge */
+  transition: background 1s ease-in-out;
+  animation: moving-background 8s infinite ease-in-out alternate;
+  /* animation: name duration timing-function delay iteration-count direction fill-mode; */
 }
 
 /* Hides the scrollbar for Chrome, Safari, and newer Opera/Edge browsers */
@@ -51,25 +52,25 @@ animation: moving-background 8s infinite ease-in-out alternate;
 
 main{
   position: relative;
-  padding-top: 3rem;
+  padding-top: 2rem;
 }
 
 button{
-    cursor: pointer;
-    border: none;
-    border-radius: 0.3rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.3rem;
 }
 
 .song-options{
   margin-left: auto;
   position: relative;
   >button{
-      padding:1rem;
-      background:transparent;
-      &:hover{
-          background:var(--subColor1);
-          color:var(--mainTextColor1)
-      }
+    padding:1rem;
+    background:transparent;
+    &:hover{
+        background:var(--subColor1);
+        color:var(--mainTextColor1)
+    }
   }
   
 }
@@ -78,7 +79,7 @@ button{
 @keyframes moving-background {
   0% {
     --x1: 60%;
-    --y1: -50%;
+    --y1: 0%;
     --x2: 30%;
     --y2: 160%;
   }
