@@ -118,17 +118,17 @@ export default function Navbar({ pageController }){
                     <li className="nav-item"
                         onClick={()=>changePage("home")}
                     >
-                        To Home
+                        Home
                     </li>
                     <li className="nav-item"
                         onClick={()=>changePage("playlist")}
                     >
-                        To Playlist
+                        Playlist
                     </li>
                     <li className="nav-item"
                         onClick={()=>changePage("profile")}
                     >
-                        To Profile
+                        Profile
                     </li>
                 </ul>
                 <div className="account-block-nav"
