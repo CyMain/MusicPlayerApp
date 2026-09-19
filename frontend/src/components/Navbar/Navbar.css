@@ -3,7 +3,7 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 3rem;
+    height: 4rem;
     z-index: 9;
     display: flex;
     align-items: center;
@@ -37,11 +37,16 @@
         >.nav-item{
             border-radius: 4rem;
             cursor: pointer;
-            background-color: orange;
             display: flex;
             align-items: center;
             text-align: center;
             padding: 0.8rem;
+            color: rgba(var(--mainTextColor1RGB), 0.4);
+            font-weight: bold;
+            &:hover{
+                background: rgba(var(--mainColor1RGB), 0.2);
+                color: var(--mainTextColor1);
+            }
         }
     }
     >.account-block-nav{
@@ -50,13 +55,17 @@
         align-items: center;
         gap: 1rem;
         font-weight: bold;
-        background-color: red;
+        font-size: 1.2rem;
         min-height: 2rem;
         padding: 0.6rem;
         border-radius: 4rem;
+        color: var(--mainTextColor1);
+        &:hover{
+            background: rgba(var(--mainColor1RGB), 0.2);
+        }
         >.pfp-nav-container{
-            >img{
-
+            >*{
+                
             }
         }
         >.account-name-nav{
