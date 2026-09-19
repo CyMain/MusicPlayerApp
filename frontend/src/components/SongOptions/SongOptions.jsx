@@ -1,3 +1,7 @@
+import "./SongOptions.css"
+
+
+
 function SongOptions({poppedUp, setPoppedUp}){
     function handlePopUp(e){
         e.stopPropagation()

@@ -221,7 +221,7 @@ const QueueItem = ({ item }) =>{
                 <h4 className="song-name-queue">
                     {item.song_name}
                 </h4>
-                <div className="options-feature-container">
+                <div className="song-options">
                     <button
                         className="options_feature_button"
                         onClick={handlePopUp}

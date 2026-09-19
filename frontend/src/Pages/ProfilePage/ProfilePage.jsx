@@ -1,6 +1,8 @@
 import { EllipsisVertical } from "lucide-react";
+import { useState } from "react";
 import "./ProfilePage.css";
 import demopfp from "/data/demopfp.jpg";
+import SongOptions from "../../components/SongOptions/SongOptions";
 
 // Hero section of the user profile.
 function UserPFPLarge(){
@@ -34,6 +36,21 @@ function UserProfileHero(){
 // Bottom half of profile page
 
 function RecentSong({ song }){
+    const [poppedUp, setPoppedUp] = useState(false)
+    
+    
+    function handlePopUp(e){
+        e.stopPropagation()
+        if (poppedUp){
+            setPoppedUp(false)
+            console.log("Popup is now false")
+        }else{
+            setPoppedUp(true)
+            console.log("Popup is now true")
+        }
+    }
+
+
     return(
         <>
         <div className="recent-song">
@@ -43,8 +60,9 @@ function RecentSong({ song }){
             <div className="song-name">
                 {song.name}
             </div>
-            <div className="song-options">
+            <div className="song-options" onClick={handlePopUp}>
                 <EllipsisVertical/>
+                <SongOptions poppedUp={poppedUp} setPoppedUp={setPoppedUp} />
             </div>
         </div>
         </>
@@ -65,7 +83,7 @@ function RecentSongsList(){
             <h3>Recents Played</h3>
             <ul>
                 {recentSongs.map(
-                    (song)=> <RecentSong song={song} />
+                    (song)=> <RecentSong key={song.id} song={song} />
                 )}
             </ul>
         </>

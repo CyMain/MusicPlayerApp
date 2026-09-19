@@ -1,0 +1,22 @@
+.options-feature-pop-up{
+    position: absolute;
+    left: -8rem;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    overflow:hidden;
+    border-radius: 1rem;
+    min-width:150px;
+    width:10dvw;
+    >.song-option{
+        color:var(--mainTextColor2);
+        height: 4rem;
+        background: red;
+        padding-left: 1rem;
+        display:flex;
+        align-items: center;
+        &:hover{
+            background:green;
+        }
+    }
+}

@@ -29,3 +29,17 @@ button{
     border: none;
     border-radius: 0.3rem;
 }
+
+.song-options{
+  margin-left: auto;
+  position: relative;
+  >button{
+      padding:1rem;
+      background:transparent;
+      &:hover{
+          background:var(--subColor1);
+          color:var(--mainTextColor1)
+      }
+  }
+  
+}
