@@ -39,6 +39,9 @@
     gap: 2rem;
     padding: 0.4rem;
     cursor: pointer;
+    &:hover{
+        background: rgba(255, 255, 255, 0.4);
+    }
     >.song-cover{
         width: 10rem;
         >img{
@@ -71,6 +74,53 @@
     }
 }
 
+.preferences{
+    >.preferences-content{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-right: 2rem;
+        width: 100%;
+        >.autoplay-preference{
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            >.autoplay-switch{
+                border-radius: 5rem;
+                display: flex;
+                width: 4rem;
+                height: 1.8rem;
+                overflow: hidden;
+
+                >.autoplay-slider{
+                    height: 100%;
+                    aspect-ratio: 1/1;
+                    background: white;
+                    border-radius: 50%;
+                }
+                &.active{
+                    background: green;
+                    >.autoplay-slider{
+                        margin-left: auto;
+                    }
+                }
+                &.inactive{
+                    background: red;
+                    >.autoplay-slider{
+                        margin-right: auto;
+                    }
+                }
+            }
+        }
+        >.logout-btn{
+            padding: 0.6rem;
+            background: rgba(155, 0, 0, 0.4);
+            color: white;
+        }
+    }
+}
+
+
 
 .right{
     padding: 0.4rem;
@@ -82,6 +132,8 @@
 .left{
     width: 100%;
     height: auto;
-    background: red;
     padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(3.4rem, 20%, 5rem);
 }

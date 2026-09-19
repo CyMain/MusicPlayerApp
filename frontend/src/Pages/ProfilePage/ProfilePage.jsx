@@ -91,6 +91,7 @@ function RecentSongsList(){
 }
 
 export default function ProfilePage(){
+    const [autoPlay, setAutoPlay] = useState(true)
     return (
         <>
             <UserProfileHero/>
@@ -115,12 +116,19 @@ export default function ProfilePage(){
                     </div>
                     <div className="preferences">
                         <h3>Preferences</h3>
-                        <div className="autoplay-preference">
-                            <span>Autoplay</span>
+                        <div className="preferences-content">
+                            <div className="autoplay-preference">
+                                <button className={`autoplay-switch ${autoPlay? 'active':'inactive'}`}
+                                    onClick={()=>setAutoPlay((val)=>!val)}
+                                >
+                                    <div className="autoplay-slider"></div>
+                                </button>
+                                <span>Autoplay</span>
+                            </div>
+                            <button className="logout-btn">
+                                Logout
+                            </button>
                         </div>
-                        <button className="logout">
-                            Logout
-                        </button>
                     </div>
                 </div>
                 <div className="right">
