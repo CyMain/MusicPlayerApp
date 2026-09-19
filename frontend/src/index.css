@@ -8,7 +8,11 @@ body, html, *{
   
   /* Change .your-container to body, html, or a specific div class */
   body, html {
-  background: var(--mainColor1);
+  background:
+  radial-gradient( circle at 60% -50%, rgba(var(--mainColor1RGB), 0.4) 0% 40px, transparent) 10% 41px,
+  radial-gradient( circle at 30% 160%, rgba(var(--mainColor1RGB), 0.4) 0% 0px, transparent 50% 70px)
+  ;
+  background-color: black;
   overflow-y: auto;          /* Gives you a vertical scrollbar only when needed */
   scrollbar-width: none;     /* Hides the scrollbar for Firefox */
   -ms-overflow-style: none;  /* Hides the scrollbar for old Internet Explorer and Edge */
