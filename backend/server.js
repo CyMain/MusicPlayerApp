@@ -3,10 +3,10 @@ import dotenv from "dotenv";
 import multer from "multer";
 import {v2 as cloudinary} from "cloudinary";
 import cors from "cors";
-import path, { format } from "path";
+import path from "path";
 import { fileURLToPath } from "url";
-import mongoose, { mongo } from "mongoose";
-import { error } from "console";
+import mongoose from "mongoose";
+import Song from "./model/song.js";
 
 dotenv.config();
 
@@ -24,15 +24,6 @@ mongoose.connect(process.env.MONGO_DB_CONNECTION_STRING)
 .then(()=>console.log("Connected to MongoDB Atlas successfully!"))
 .catch((err)=>console.error("MongoDB Connection Error:", err))
 
-//Preparing Song Schema
-const songSchema = new mongoose.Schema({
-    song_name: {type: String, required: true},
-    audio_url: {type: String, required: true},
-    cover_url: {type: String, default: ""},
-    createdAt: {type: Date, default:Date.now}
-})
-
-const Song = mongoose.model("Song", songSchema)
 
 cloudinary.config({
     cloud_name:process.env.CLOUDINARY_NAME,
@@ -95,9 +86,9 @@ app.post("/api/upload", upload.fields([
         
         //Instantiate mongoose Model & match cover_url property name
         const newSong = new Song({
-            song_name:song_name || audioFile.originalname,
-            audio_url:audioResult.secure_url,
-            cover_url:coverUrl,
+            song_name: song_name || audioFile.originalname,
+            audio_url: audioResult.secure_url,
+            cover_url: coverUrl,
         })
 
         await newSong.save();
