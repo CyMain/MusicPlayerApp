@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './App.css'
 import QueueView from './Pages/QueueView/QueueView';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
+import HomePage from './Pages/HomePage/HomePage';
 import Navbar from './components/Navbar/Navbar';
 
 
