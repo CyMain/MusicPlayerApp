@@ -11,7 +11,7 @@ const songSchema = new Schema({
             type: String,
             required: true,
         },
-        cover: {
+        cover_url: {
             type: String,
             default: "",
         },
