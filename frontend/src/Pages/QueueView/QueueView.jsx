@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import song_list from "../../data/song_list.json";
-import { SongsProvider, useSongs, useSongsDispatch } from "../../Contexts/SongsContextFile";
+import { useSongs, useSongsDispatch } from "../../Contexts/SongsContextFile";
 import { EllipsisVertical } from "lucide-react"
 import SongOptions from "../../components/SongOptions/SongOptions"
 import './QueueView.css';
@@ -493,14 +493,13 @@ const QueueView = ()=>{
     // }
 
     return(
-        <>
-            <SongsProvider>    
+        <> 
+            {/* Removed SongsProvider */}
                 <div className="queue-view">
                     <SongAdder/>
                     <CurrPlayingSong/>
                     <CurrQueue/>
                 </div>
-            </SongsProvider>
         </>
     )
 }

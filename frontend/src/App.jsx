@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import './App.css'
+//Page Imports
 import QueueView from './Pages/QueueView/QueueView';
 import ProfilePage from './Pages/ProfilePage/ProfilePage';
 import HomePage from './Pages/HomePage/HomePage';
+//Component Imports
 import Navbar from './components/Navbar/Navbar';
+
+//Context Imports
+import { SongsProvider } from './Contexts/SongsContextFile';
+
 
 
 const App = ()=>{
@@ -15,7 +21,7 @@ const App = ()=>{
     user_name:"Guest",
   }
 
-  const [currPage, setCurrPage] = useState("playlist")
+  const [currPage, setCurrPage] = useState("home")
 
 
   const pageController = {
@@ -37,10 +43,12 @@ const App = ()=>{
   
   return (
     <>
-      <main>
-        <Navbar pageController={pageController}/>
-        {content}
-      </main>
+      <SongsProvider>
+        <main>
+          <Navbar pageController={pageController}/>
+          {content}
+        </main>
+      </SongsProvider>
     </>
   )
 }

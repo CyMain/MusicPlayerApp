@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import song_list from "../song_list.json";
+import defaultCover from "/defaultCover.jpg"
 
 const SongsContext = createContext(null);
 const SongsDispatchContext = createContext(null);
@@ -86,6 +87,8 @@ function SongsProvider({ children }) {
                 dispatch({ type: "set_songs", songs: songData });
             } catch (error) {
                 console.error(`Failed to load tracks from DB: ${error}`);
+                const songData = initial_songs_data;
+                dispatch({ type: "set_songs", songs: songData });
             }
         };
 
@@ -93,7 +96,7 @@ function SongsProvider({ children }) {
     }, []);
 
     return (
-        <SongsContext value={{ songs_utils, currSong: songs_utils.currSong, dispatch }}>
+        <SongsContext value={{ songs_utils, currSong: songs_utils.currSong, dispatch, defaultCover }}>
             <SongsDispatchContext value={dispatch}>
                 {children}
             </SongsDispatchContext>
