@@ -10,6 +10,7 @@
         >img{
             width: 100%;
             object-fit: cover;
+            aspect-ratio: 1.4/1;
         }
     }
 
@@ -18,5 +19,52 @@
         flex-direction: column;
         gap: 1rem;
         text-align: center;
+    }
+}
+
+.home-section{
+}
+
+.home-playlists-section{
+    >.section-title{
+        display: flex;
+        gap: 0.6rem;
+        cursor: pointer;
+        transition: all 0.12s ease-out;
+        &:hover{
+            gap: 1.2rem;
+        }
+    }
+    >.playlists-list{
+        padding: 0.6rem 1rem;
+        display: flex;
+        gap: 2rem;
+        >.playlist-item{
+            padding: 1rem;
+            border-radius: 0.8rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            &:hover{
+                /* background: rgba(var(--mainColor1RGB), 0.4); */
+                background: linear-gradient(
+                    60deg,
+                    rgba(var(--mainColor1RGB), 0.1) 20%,
+                    rgba(var(--mainColor1RGB), 0.2),
+                    rgba(var(--mainColor1RGB), 0.1) 60%
+                    );
+            }
+        }
+    }
+}
+
+.item-cover{
+    width: clamp(6rem, 16dvw, 10rem);
+    >img{
+        width: 100%;
+        aspect-ratio: 1/1;
+        object-fit: cover;
     }
 }
