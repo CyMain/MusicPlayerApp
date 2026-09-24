@@ -15,9 +15,13 @@ function HeroSongCover({coverURL}){
 
 function MostPlayedSong(){
     // Displayed in hero component if there is no Current Song playing
+    const mostPlayedSong = "Sonic Colors"
     return(
         <>
-
+            <div className="text">
+                <span>Your most played song is...</span>
+                <h2>{mostPlayedSong}</h2>
+            </div>
         </>
     )
 
