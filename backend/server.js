@@ -7,16 +7,21 @@ import path from "path";
 import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import Song from "./model/song.js";
+import homeRouter from "./routes/homeRoutes.js";
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename)
-
+const corsOptions = {
+    origin:"http://localhost:5173   ",
+    optionSuccessStatus:200
+}
 
 const app = express();
-app.use(cors())
+app.use(cors(corsOptions))
 app.use(express.json())
+app.use("/home", homeRouter)
 
 
 //Connecting to MongoDB

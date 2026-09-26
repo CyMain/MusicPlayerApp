@@ -1,6 +1,7 @@
 import "./HomePage.css"
 import { useSongs } from "../../Contexts/SongsContextFile"
 import defaultCover from "/defaultCover.jpg"
+import { useEffect, useState } from "react"
 
 
 
@@ -33,7 +34,7 @@ import defaultCover from "/defaultCover.jpg"
         return(
             <>
                 <li className="song-item list-item">
-                    <ListItemCover coverURL={song_data.cover_url ?? defaultCover}/>
+                    <ListItemCover coverURL={song_data.cover ?? defaultCover}/>
                     <span className="playlist-name">
                         {song_data.song_name}
                     </span>
@@ -46,19 +47,48 @@ import defaultCover from "/defaultCover.jpg"
     }
 
     function SongsList(){
-        const songs_list = [
+        let init_songs_list = [
             {
                 id:"12d3daxcz",
                 song_name:"Sonic",
-                cover_url:null,
+                cover:null,
                 play_count: 45
             },
         ]
+
+        const [songs_list, setSongs_list] = useState(init_songs_list)
+
+        useEffect(()=>{
+            async function fetchData(){
+                try{
+                    const response = await fetch(`${import.meta.env.VITE_BASE_API_URL}/home/songs`)
+    
+                    if (!response.ok){
+                        const err_response =  await response.json().catch(()=> null);
+                        console.log("Response not okay: ", err_response)
+                        throw new Error("Failed to fetch songs from home api")
+                    }
+    
+                    console.log("Connected succesfully to home api")
+    
+                    const data = await response.json()
+    
+                    setSongs_list(data.songs_list)
+
+                    console.log("Songs list: ", songs_list)
+    
+                }catch(error){
+                    console.error("Failed to fetch songs or failed to connect to api: ", error)
+                }
+            }
+            fetchData()
+        }, [])
+
         return(
             <>
                 <ul className="songs-list list">
                     {songs_list.map(
-                        (song_data)=> <SongsListItem song_data={song_data}/>
+                        (song_data)=> <SongsListItem key={song_data.id} song_data={song_data}/>
                     )}
                 </ul>
             </>
@@ -148,6 +178,7 @@ import defaultCover from "/defaultCover.jpg"
 //Hero Components
     function HeroSongCover({coverURL}){
         const { defaultCover } = useSongs()
+        console.log("Cover_url: ", coverURL)
         return(
             <>
                 <figure className="hero-song-cover">
@@ -174,9 +205,10 @@ import defaultCover from "/defaultCover.jpg"
     function CurrPlayingHero(){
         // Displayed in hero component if there is a Current Song playing
         const { currSong } = useSongs()
+        console.log("currSong: ", currSong)
         return(
             <>
-                <HeroSongCover coverURL={currSong.coverURL}/>
+                <HeroSongCover coverURL={currSong.cover}/>
                 <div className="text">
                     <span>Currently playing...</span>
                     <h2>{currSong.song_name}</h2>
