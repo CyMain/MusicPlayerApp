@@ -190,11 +190,20 @@
         gap: 1rem;
         padding: 3rem;
         background: var(--subColor1);
+        border-radius: 2rem;
+        box-shadow: 0 2px 30px 10px rgba(var(--mainColor1RGB), 0.4);
         font-weight:bold;
         min-width: 30rem;
         width: 40%;
         pointer-events: auto;
+        >.song-name-input{
+            color: var(--mainTextColor2);
+            padding: 1rem;
+            width: 100%;
+            margin-bottom: 1rem;
+        }
         >.form-buttons{
+            margin-top: 1rem;
             display: flex;
             width: 100%;
             justify-content: space-evenly;

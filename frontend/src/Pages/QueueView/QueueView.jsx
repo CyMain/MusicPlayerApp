@@ -452,6 +452,7 @@ const SongAdder = () => {
                                 <input
                                     type="text"
                                     id="song-name"
+                                    className="song-name-input"
                                     placeholder="Enter song name"
                                     ref={songNameRef}
                                     value={songName}
