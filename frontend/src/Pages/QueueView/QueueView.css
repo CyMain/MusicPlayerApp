@@ -40,6 +40,10 @@
         max-width: 32vw;
         max-height: 30dvh;
         flex-shrink: 0;
+        >img{
+            border-radius: 5%;
+            overflow: hidden;
+        }
     }
 
     .song-controls{
@@ -146,6 +150,8 @@
             img{
                 max-width: 200px;
                 width: 100%;
+                border-radius: 10%;
+                overflow: hidden;
             }
         }
 
