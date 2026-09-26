@@ -15,13 +15,74 @@ import defaultCover from "/defaultCover.jpg"
         )
     }
 
+    function SectionTitle({ children }){
+        return(
+            <>
+                <h1 className="section-title">
+                    <span>{children}</span>
+                    <span>&gt;</span>
+                </h1>
+            </>
+        )
+    }
+    
+
+
+// Songs List Components
+    function SongsListItem({ song_data }){
+        return(
+            <>
+                <li className="song-item list-item">
+                    <ListItemCover coverURL={song_data.cover_url ?? defaultCover}/>
+                    <span className="playlist-name">
+                        {song_data.song_name}
+                    </span>
+                    <span>
+                        {song_data.play_count} plays
+                    </span>
+                </li>
+            </>
+        )
+    }
+
+    function SongsList(){
+        const songs_list = [
+            {
+                id:"12d3daxcz",
+                song_name:"Sonic",
+                cover_url:null,
+                play_count: 45
+            },
+        ]
+        return(
+            <>
+                <ul className="songs-list list">
+                    {songs_list.map(
+                        (song_data)=> <SongsListItem song_data={song_data}/>
+                    )}
+                </ul>
+            </>
+        )
+    }
+
+    function Songs(){
+        return(
+            <>
+                <section>
+                    <SectionTitle>Songs</SectionTitle>
+                    <SongsList/>
+                </section>
+            </>
+        )
+    }
+
 
 // Playlists List Components
     function PlaylistItem({ playlist_data }){
         console.log("Playlist Data: ", playlist_data)
         return(
             <>
-                <li className="playlist-item">
+                <li className="playlist-item list-item">
                     <ListItemCover coverURL={playlist_data.playlist_cover_url ?? defaultCover}/>
                     <span className="playlist-name">
                         {playlist_data.playlist_name}
@@ -57,7 +118,7 @@ import defaultCover from "/defaultCover.jpg"
         ]
         return(
             <>
-                <ul className="playlists-list">
+                <ul className="playlists-list list">
                     {
                         playlists.map(
                             (playlist)=>{
@@ -76,10 +137,7 @@ import defaultCover from "/defaultCover.jpg"
         return(
             <>
                 <section className="home-section home-playlists-section">
-                    <h1 className="section-title">
-                        <span>Your Playlists</span>
-                        <span>&gt;</span>
-                    </h1>
+                    <SectionTitle>Playlists</SectionTitle>
                     <PlaylistsList/>
                 </section>
             </>
@@ -151,6 +209,7 @@ export default function HomePage(){
         <>
             <Hero/>
             <Playlists/>
+            <Songs/>
         </>
     )
 }

@@ -26,40 +26,16 @@
 }
 
 .home-playlists-section{
-    >.section-title{
-        display: flex;
-        gap: 0.6rem;
-        cursor: pointer;
-        transition: all 0.12s ease-out;
-        &:hover{
-            gap: 1.2rem;
-        }
-    }
     >.playlists-list{
-        padding: 0.6rem 1rem;
-        display: flex;
-        gap: 2rem;
+        
         >.playlist-item{
-            padding: 1rem;
-            border-radius: 0.8rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            cursor: pointer;
-            &:hover{
-                /* background: rgba(var(--mainColor1RGB), 0.4); */
-                background: linear-gradient(
-                    60deg,
-                    rgba(var(--mainColor1RGB), 0.1) 20%,
-                    rgba(var(--mainColor1RGB), 0.2),
-                    rgba(var(--mainColor1RGB), 0.1) 60%
-                    );
-            }
+           
         }
     }
 }
 
+
+/* Reusable Styling */
 .item-cover{
     width: clamp(6rem, 16dvw, 10rem);
     >img{
@@ -67,4 +43,43 @@
         aspect-ratio: 1/1;
         object-fit: cover;
     }
+}
+
+.section-title{
+    display: flex;
+    gap: 0.6rem;
+    cursor: pointer;
+    transition: all 0.12s ease-out;
+    &:hover{
+        gap: 1.2rem;
+    }
+}
+
+.list{
+    padding: 0.6rem 1rem;
+    display: flex;
+    gap: clamp(2rem, 20dvw, 5rem);
+    >.list-item{
+        padding: 1rem;
+        border-radius: 0.8rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        &:hover{
+            /* background: rgba(var(--mainColor1RGB), 0.4); */
+            background: linear-gradient(
+                60deg,
+                rgba(var(--mainColor1RGB), 0.1) 20%,
+                rgba(var(--mainColor1RGB), 0.2),
+                rgba(var(--mainColor1RGB), 0.1) 60%
+                );
+        }
+    }
+}
+
+section + section{
+    /* Targets every section that is not the first section */
+    margin-top: 4rem;
 }
