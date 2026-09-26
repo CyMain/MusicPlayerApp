@@ -12,6 +12,8 @@ const initial_songs_data = {
     loading: true
 };
 
+
+
 function songsReducer(songs_utils, action) {
     switch (action.type) {
         case 'set_songs': {
@@ -64,6 +66,34 @@ function songsReducer(songs_utils, action) {
                 };
             }
             return songs_utils;
+        }
+        case 'delete_song':{
+            try{
+                const new_songs_list = songs_utils.songs_list.filter(
+                    (song)=>song.id !== action.song_id
+                )
+                
+                let new_index = songs_utils.songs_list_index
+
+                if (songs_utils.songs_list.length == songs_utils.songs_list_index + 1){
+                   new_index -= 1
+                } else{
+                   new_index += 1
+                }
+
+                return{
+                    ...songs_utils,
+                    songs_list:new_songs_list,
+                    songs_list_index: new_index,
+                    currSong: songs_utils.songs_list[new_index]
+                }
+
+            }catch(err){
+                console.error("FAILED TO DELETE SONG:", err)
+                return{
+                    ...songs_utils
+                }
+            }
         }
         default: {
             throw new Error(`Unknown action type: ${action.type}`);

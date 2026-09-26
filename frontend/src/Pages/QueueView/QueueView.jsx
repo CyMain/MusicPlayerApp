@@ -207,6 +207,28 @@ const QueueItem = ({ item }) =>{
         }
     }
 
+    const functionsObject = [
+        {
+            func_id:1,
+            func_label:"Delete Song",
+            func_func:async function deleteSong(song_id){
+                console.log(song_id)
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/delete/${song_id}`, {
+                    method:"DELETE"
+                })
+                const json_response = await response.json()
+                if (!response.ok){
+                    console.error("Failed to delete that songs again. Here's the data lil' bro: ", json_response)
+                    throw new Error("failed to delete song!")
+                }
+                dispatch({ type:"delete_song", song_id:song_id })
+            },
+            imp_info:{
+                id:item.id,
+            }
+        },
+    ]
+
     
     return(
         <>
@@ -228,7 +250,7 @@ const QueueItem = ({ item }) =>{
                     >
                         <EllipsisVertical />
                     </button>
-                    <SongOptions poppedUp={poppedUp} setPoppedUp={setPoppedUp}/>
+                    <SongOptions poppedUp={poppedUp} setPoppedUp={setPoppedUp} functionsObject={functionsObject}/>
                 </div>
             </li>
         </>

@@ -8,20 +8,23 @@ import { fileURLToPath } from "url";
 import mongoose from "mongoose";
 import Song from "./model/song.js";
 import homeRouter from "./routes/homeRoutes.js";
+import { loggerMiddleware } from "./middleware/base_middleware.js";
 
 dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename)
 const corsOptions = {
-    origin:"http://localhost:5173   ",
+    origin:"http://localhost:5173",
     optionSuccessStatus:200
 }
 
 const app = express();
 app.use(cors(corsOptions))
 app.use(express.json())
+app.use(loggerMiddleware)
 app.use("/home", homeRouter)
+
 
 
 //Connecting to MongoDB
@@ -131,14 +134,27 @@ app.get("/api/songs", async(req, res)=>{
     }
 })
 
-app.delete("/api/delete", async(req, res)=>{
+app.delete("/api/delete/:id", async(req, res)=>{
     try{
-        res.status(201).json({
-            message:"Delete Successful"
+        const del_song_id = req.params.id
+        console.log("deleting: ", del_song_id)
+        const result = await Song.findByIdAndDelete(del_song_id)
+        console.log("Result from DB:", result);
+
+        if (!result){
+            return res.status(404).json({ message: "No songs with that id" });
+        }
+
+        res.status(200).json({
+            message:"Delete Successful",
+            deletedSong: result
         })
     } catch (err){
-        console.error("Failed to delete song.")
-        throw new Error("Failed to delete song:", err)
+        console.error("Failed to delete that song: ", err)
+        res.status(400).send({
+            message:"failed to delete",
+            error:err.message
+        });
     }
 })
 

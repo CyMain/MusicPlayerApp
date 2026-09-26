@@ -1,8 +1,9 @@
+import { useSongs } from "../../Contexts/SongsContextFile"
 import "./SongOptions.css"
 
 
 
-function SongOptions({poppedUp, setPoppedUp}){
+function SongOptions({poppedUp, setPoppedUp, functionsObject}){
     function handlePopUp(e){
         e.stopPropagation()
         if (poppedUp){
@@ -18,6 +19,7 @@ function SongOptions({poppedUp, setPoppedUp}){
         e.stopPropagation();
         setPoppedUp(false);
         // Add your delete dispatch or API call here
+        const { dispatch } = useSongs()
     };
     
     return(
@@ -38,6 +40,17 @@ function SongOptions({poppedUp, setPoppedUp}){
                         >
                             Delete
                         </li>
+                        {functionsObject.map(
+                            (func)=>{
+                                return(
+                                    <li key={func.func_id} className="song-option"
+                                        onClick={()=>func.func_func(func.imp_info.id)}
+                                    >
+                                        {func.func_label}
+                                    </li>
+                                )
+                            }
+                        )}
                     </ul>
                 )
             }
