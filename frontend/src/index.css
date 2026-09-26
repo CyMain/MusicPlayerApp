@@ -53,7 +53,8 @@ body, html {
 
 main{
   position: relative;
-  padding-top: 3rem;
+  padding: clamp(2rem, 4dvw, 4rem);
+  padding-top: 4rem;
 }
 
 button{

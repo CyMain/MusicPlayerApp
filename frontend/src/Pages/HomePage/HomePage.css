@@ -81,5 +81,5 @@
 
 section + section{
     /* Targets every section that is not the first section */
-    margin-top: 4rem;
+    margin-top: 3rem;
 }
