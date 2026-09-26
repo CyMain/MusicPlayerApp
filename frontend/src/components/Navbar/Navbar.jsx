@@ -115,17 +115,17 @@ export default function Navbar({ pageController }){
                 }`}
             >
                 <ul className="nav-list">
-                    <li className="nav-item"
+                    <li className={`nav-item ${pageController.currPage == "home" ? "active" : ""}`}
                         onClick={()=>changePage("home")}
                     >
                         Home
                     </li>
-                    <li className="nav-item"
+                    <li className={`nav-item ${pageController.currPage == "playlist" ? "active" : ""}`}
                         onClick={()=>changePage("playlist")}
                     >
                         Playlist
                     </li>
-                    <li className="nav-item"
+                    <li className={`nav-item ${pageController.currPage == "profile" ? "active" : ""}`}
                         onClick={()=>changePage("profile")}
                     >
                         Profile

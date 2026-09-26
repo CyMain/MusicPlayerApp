@@ -40,11 +40,15 @@
             display: flex;
             align-items: center;
             text-align: center;
-            padding: 0.8rem;
+            padding: 0.8rem 1.4rem;
             color: rgba(var(--mainTextColor1RGB), 0.4);
             font-weight: bold;
             &:hover{
                 background: rgba(var(--mainColor1RGB), 0.2);
+                color: var(--mainTextColor1);
+            }
+            &.active{
+                background: rgba(var(--mainColor1RGB), 0.4);
                 color: var(--mainTextColor1);
             }
         }
